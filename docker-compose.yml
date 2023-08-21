@@ -1,0 +1,38 @@
+version: '3'
+
+services: 
+  db:
+    container_name: kasidech-postgres
+    ports:
+      - 54321:5432
+    environment:
+      - POSTGRES_USER=kasidech
+      - POSTGRES_PASSWORD=123456789pop
+    image: postgres:14.4
+    restart: 'unless-stopped'
+
+  pgadmin:
+    container_name: kasidech-pgadmin
+    ports:
+      - 4433:443
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=kasidech-d@rmutp.ac.th
+      - PGADMIN_DEFAULT_PASSWORD=123456789pop
+    image: dpage/pgadmin4:latest
+    restart: 'unless-stopped'
+ 
+  strapi:
+    container_name: kasidech-strapi
+    image: naskio/strapi:latest
+    ports:
+      - 1337:1337
+    environment:
+      - DATABASE_CLIENT=postgres  
+      - DATABASE_HOST=192.168.56.1
+      - DATABASE_PORT=54321
+      - DATABASE_NAME=kasidech
+      - DATABASE_USERNAME=kasidech  
+      - DATABASE_PASSWORD=123456789pop
+      - DATABASE_SSL=false
+    restart: 'unless-stopped'  
